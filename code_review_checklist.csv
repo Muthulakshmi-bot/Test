@@ -1,0 +1,64 @@
+Category,Checklist Item,Description,Priority,Applicable To,Status
+General Code Quality,"Code follows consistent naming conventions","Variables, functions, and files use clear, consistent naming (e.g., camelCase for C, snake_case for Python)",High,All,Not Reviewed
+General Code Quality,"Code is properly commented","Functions, complex logic, and business rules have clear comments explaining purpose and logic",Medium,All,Not Reviewed
+General Code Quality,"No hardcoded values except for demo purposes","Configuration values, connection strings, and constants are externalized",Medium,All,Not Reviewed
+General Code Quality,"Code is modular and reusable","Functions/methods are single-purpose and can be reused across programs",Medium,All,Not Reviewed
+General Code Quality,"No dead code or unused variables","All code paths are used and variables are referenced",Low,All,Not Reviewed
+General Code Quality,"Consistent code formatting","Indentation, spacing, and style are consistent throughout",Medium,All,Not Reviewed
+Pro*C Specific,"SQLCA error handling implemented","All SQL operations check sqlca.sqlcode and handle errors appropriately",High,Pro*C,Not Reviewed
+Pro*C Specific,"Host variables properly declared","All host variables are declared in EXEC SQL BEGIN/END DECLARE SECTION",High,Pro*C,Not Reviewed
+Pro*C Specific,"Connection management correct","Database connections are properly established and released",High,Pro*C,Not Reviewed
+Pro*C Specific,"Cursor operations complete","DECLARE, OPEN, FETCH, CLOSE cursor operations are properly paired",High,Pro*C,Not Reviewed
+Pro*C Specific,"Transaction management","COMMIT/ROLLBACK used appropriately for data consistency",High,Pro*C,Not Reviewed
+Pro*C Specific,"Memory management","Host variable sizes match database column sizes to prevent truncation",Medium,Pro*C,Not Reviewed
+Pro*C Specific,"Precompiler directives correct","EXEC SQL INCLUDE and other directives are properly used",Medium,Pro*C,Not Reviewed
+Python Specific,"Exception handling comprehensive","All database operations wrapped in try/except blocks with specific error types",High,Python,Not Reviewed
+Python Specific,"cx_Oracle connection management","Connections and cursors are properly opened and closed in finally blocks",High,Python,Not Reviewed
+Python Specific,"Parameterized queries used","SQL queries use parameter binding to prevent SQL injection",High,Python,Not Reviewed
+Python Specific,"Resource cleanup","Context managers (with statements) used where available",Medium,Python,Not Reviewed
+Python Specific,"Import statements organized","Standard library, third-party, and local imports properly grouped and ordered",Low,Python,Not Reviewed
+Python Specific,"Python 3 compatibility","Code uses Python 3 syntax and features, no Python 2 compatibility issues",Medium,Python,Not Reviewed
+PL/SQL Specific,"Exception handling implemented","Proper EXCEPTION blocks with WHEN clauses for different error types",High,PL/SQL,Not Reviewed
+PL/SQL Specific,"Transaction control","COMMIT/ROLLBACK used appropriately in procedures and anonymous blocks",High,PL/SQL,Not Reviewed
+PL/SQL Specific,"Parameter validation","Input parameters are validated for null values and data types",Medium,PL/SQL,Not Reviewed
+PL/SQL Specific,"Performance considerations","Queries are optimized, no unnecessary operations in loops",Medium,PL/SQL,Not Reviewed
+PL/SQL Specific,"Variable scoping","Variables declared in appropriate scope, no global variable abuse",Low,PL/SQL,Not Reviewed
+Database Operations,"SQL syntax correct","All SQL statements are syntactically correct and follow Oracle standards",High,All,Not Reviewed
+Database Operations,"Data integrity maintained","Foreign key relationships and constraints are respected",High,All,Not Reviewed
+Database Operations,"Query optimization","SELECT statements use appropriate WHERE clauses and JOINs",Medium,All,Not Reviewed
+Database Operations,"Bulk operations efficient","Large data operations use appropriate batching or bulk methods",Medium,All,Not Reviewed
+Database Operations,"Locking strategy appropriate","Row-level or table-level locking used as needed for concurrency",Medium,All,Not Reviewed
+Database Operations,"Index usage considered","Queries leverage appropriate indexes for performance",Low,All,Not Reviewed
+Security,"No SQL injection vulnerabilities","Input parameters are properly sanitized and parameterized",High,All,Not Reviewed
+Security,"Credentials not exposed","Database passwords and sensitive data not hardcoded or logged",High,All,Not Reviewed
+Security,"Least privilege principle","Database users have minimum required permissions",Medium,All,Not Reviewed
+Security,"Input validation","All user inputs are validated for type, length, and format",Medium,All,Not Reviewed
+Security,"Error messages safe","Error messages don't expose sensitive system information",Medium,All,Not Reviewed
+Security,"Audit logging","Important operations are logged for security monitoring",Low,All,Not Reviewed
+Performance,"Memory leaks prevented","All allocated resources are properly freed/released",High,All,Not Reviewed
+Performance,"Connection pooling considered","For high-traffic applications, connection pooling is implemented",Medium,All,Not Reviewed
+Performance,"Query execution time reasonable","Long-running queries are optimized or run asynchronously",Medium,All,Not Reviewed
+Performance,"Scalability considerations","Code can handle increased load without significant performance degradation",Low,All,Not Reviewed
+Performance,"Resource usage monitored","Memory, CPU, and I/O usage is reasonable for the operations performed",Low,All,Not Reviewed
+Documentation,"README updated","New programs and features are documented in README.md",High,All,Not Reviewed
+Documentation,"Code comments adequate","Complex algorithms and business logic are well-documented",Medium,All,Not Reviewed
+Documentation,"API documentation","Function/method signatures and parameters are documented",Medium,All,Not Reviewed
+Documentation,"Usage examples provided","README includes execution examples for all programs",Medium,All,Not Reviewed
+Documentation,"Error handling documented","Common errors and troubleshooting steps are documented",Low,All,Not Reviewed
+Documentation,"Dependencies listed","All required software and libraries are documented",Medium,All,Not Reviewed
+Testing,"Unit tests exist","Individual functions/methods have corresponding tests",Medium,Python,Not Reviewed
+Testing,"Integration tests","Database operations are tested with actual database connections",Medium,All,Not Reviewed
+Testing,"Error scenarios tested","Programs handle various error conditions gracefully",High,All,Not Reviewed
+Testing,"Edge cases covered","Boundary conditions and unusual inputs are tested",Medium,All,Not Reviewed
+Testing,"Performance tested","Programs perform adequately under expected load",Low,All,Not Reviewed
+Testing,"Cross-platform compatibility","Programs work on different operating systems and environments",Low,All,Not Reviewed
+File Handling,"File operations safe","File I/O operations handle errors and edge cases properly",High,Programs with file I/O,Not Reviewed
+File Handling,"File permissions appropriate","Files are accessed with correct read/write permissions",Medium,Programs with file I/O,Not Reviewed
+File Handling,"File encoding handled","Text files use appropriate character encoding (UTF-8)",Low,Programs with file I/O,Not Reviewed
+File Handling,"Large file handling","Programs can handle files of various sizes without memory issues",Medium,Programs with file I/O,Not Reviewed
+File Handling,"File locking considered","Concurrent file access is handled appropriately",Low,Programs with file I/O,Not Reviewed
+Build and Deployment,"Compilation successful","All Pro*C programs compile without errors",High,Pro*C,Not Reviewed
+Build and Deployment,"Dependencies resolved","All required libraries and tools are available",High,All,Not Reviewed
+Build and Deployment,"Build scripts work","Automated build processes execute successfully",Medium,All,Not Reviewed
+Build and Deployment,"Deployment documented","Steps to deploy and run programs are clear",Medium,All,Not Reviewed
+Build and Deployment,"Environment setup","Required environment variables and paths are documented",Medium,All,Not Reviewed

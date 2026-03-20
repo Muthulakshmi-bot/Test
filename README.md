@@ -31,6 +31,8 @@ This project contains Oracle database programs implemented in three different wa
 ### Data Files
 - `employee_data.txt` - CSV data file for bulk loading (used by 5.pc and 5.py)
 - `requirements.txt` - Python dependencies
+- `code_review_checklist.csv` - Comprehensive code review checklist (Excel-compatible)
+- `CODE_REVIEW_README.md` - Instructions for using the code review checklist
 
 ## Prerequisites
 
@@ -153,6 +155,12 @@ See `test_scenarios.md` for comprehensive test cases covering:
 - Error conditions
 - Edge cases
 - Performance scenarios
+
+Use `code_review_checklist.csv` for systematic code review:
+- Open in Excel or any spreadsheet application
+- Comprehensive checklist covering Pro*C, Python, PL/SQL, and general best practices
+- Filter by priority and applicable technologies
+- Track review status and findings
 
 ## Documentation
 
