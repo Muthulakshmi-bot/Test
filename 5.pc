@@ -1,0 +1,150 @@
+/* bulk_insert_employees.pc - Load employee and salary records from file */
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+EXEC SQL INCLUDE sqlca;
+
+static void sql_error(const char *msg) {
+    fprintf(stderr, "%s\nORA-%.*s\n", msg,
+            (int)sqlca.sqlerrm.sqlerrml, sqlca.sqlerrm.sqlerrmc);
+}
+
+int main() {
+    EXEC SQL BEGIN DECLARE SECTION;
+        char username[30] = "scott";
+        char password[30] = "tiger";
+        char db[30]       = "ORCLPDB1";
+
+        /* Host variables for employee data */
+        int  empno;
+        char ename[11];
+        char job[10];
+        int  mgr;
+        float sal;
+        float comm;
+        int  deptno;
+    EXEC SQL END DECLARE SECTION;
+
+    FILE *data_file;
+    char line[256];
+    char *token;
+    int success_count = 0;
+    int failure_count = 0;
+    int total_processed = 0;
+
+    /* Open the data file */
+    data_file = fopen("employee_data.txt", "r");
+    if (data_file == NULL) {
+        fprintf(stderr, "Error: Cannot open employee_data.txt file\n");
+        return 1;
+    }
+
+    /* Connect to database */
+    EXEC SQL CONNECT :username IDENTIFIED BY :password USING :db;
+    if (sqlca.sqlcode != 0) {
+        sql_error("Connect failed");
+        fclose(data_file);
+        return 1;
+    }
+
+    printf("Starting bulk load from employee_data.txt...\n");
+
+    /* Read and process each line from the file */
+    while (fgets(line, sizeof(line), data_file)) {
+        /* Remove newline character */
+        line[strcspn(line, "\n")] = 0;
+
+        /* Skip empty lines */
+        if (strlen(line) == 0) continue;
+
+        total_processed++;
+
+        /* Parse CSV line: empno,ename,job,mgr,sal,comm,deptno */
+        token = strtok(line, ",");
+        if (token == NULL) {
+            fprintf(stderr, "Error parsing line %d: invalid format\n", total_processed);
+            failure_count++;
+            continue;
+        }
+        empno = atoi(token);
+
+        token = strtok(NULL, ",");
+        if (token == NULL) {
+            fprintf(stderr, "Error parsing ename in line %d\n", total_processed);
+            failure_count++;
+            continue;
+        }
+        strncpy(ename, token, sizeof(ename) - 1);
+        ename[sizeof(ename) - 1] = '\0';
+
+        token = strtok(NULL, ",");
+        if (token == NULL) {
+            fprintf(stderr, "Error parsing job in line %d\n", total_processed);
+            failure_count++;
+            continue;
+        }
+        strncpy(job, token, sizeof(job) - 1);
+        job[sizeof(job) - 1] = '\0';
+
+        token = strtok(NULL, ",");
+        if (token == NULL) {
+            fprintf(stderr, "Error parsing mgr in line %d\n", total_processed);
+            failure_count++;
+            continue;
+        }
+        mgr = atoi(token);
+
+        token = strtok(NULL, ",");
+        if (token == NULL) {
+            fprintf(stderr, "Error parsing sal in line %d\n", total_processed);
+            failure_count++;
+            continue;
+        }
+        sal = atof(token);
+
+        token = strtok(NULL, ",");
+        if (token == NULL) {
+            fprintf(stderr, "Error parsing comm in line %d\n", total_processed);
+            failure_count++;
+            continue;
+        }
+        comm = atof(token);
+
+        token = strtok(NULL, ",");
+        if (token == NULL) {
+            fprintf(stderr, "Error parsing deptno in line %d\n", total_processed);
+            failure_count++;
+            continue;
+        }
+        deptno = atoi(token);
+
+        /* Insert the record */
+        EXEC SQL INSERT INTO emp(empno, ename, job, mgr, hiredate, sal, comm, deptno)
+                 VALUES (:empno, :ename, :job, :mgr, SYSDATE, :sal, :comm, :deptno);
+
+        if (sqlca.sqlcode == 0) {
+            EXEC SQL COMMIT WORK;
+            printf("Successfully loaded employee: %d - %s (Salary: %.2f)\n",
+                   empno, ename, sal);
+            success_count++;
+        } else {
+            EXEC SQL ROLLBACK WORK;
+            fprintf(stderr, "Failed to load employee %d: ", empno);
+            sql_error("Insert failed (rolled back)");
+            failure_count++;
+        }
+    }
+
+    /* Close the data file */
+    fclose(data_file);
+
+    /* Final commit and disconnect */
+    EXEC SQL COMMIT WORK RELEASE;
+
+    printf("\nBulk load completed:\n");
+    printf("Total lines processed: %d\n", total_processed);
+    printf("Successfully loaded: %d records\n", success_count);
+    printf("Failed to load: %d records\n", failure_count);
+
+    return (failure_count > 0) ? 1 : 0;
+}
