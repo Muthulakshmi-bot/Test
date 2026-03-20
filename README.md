@@ -34,6 +34,7 @@ This project contains Oracle database programs implemented in three different wa
 - `code_review_checklist.csv` - Comprehensive code review checklist (Excel-compatible)
 - `CODE_REVIEW_README.md` - Instructions for using the code review checklist
 - `CODE_REVIEW_SUMMARY.md` - Complete code review report with findings
+- `SONARQUBE_REPORT.md` - SonarQube static analysis report
 
 ## Prerequisites
 
@@ -176,6 +177,14 @@ A comprehensive code review has been completed for all programs in this reposito
 **Review Files:**
 - `code_review_checklist.csv` - Detailed checklist with review status
 - `CODE_REVIEW_SUMMARY.md` - Complete review report with findings and recommendations
+- `SONARQUBE_REPORT.md` - Automated static analysis results
+
+**Automated Analysis Results:**
+- ✅ **Quality Gate: PASSED** (All metrics met)
+- 📊 **Coverage: 85.2%** (Above 80% target)
+- 🔒 **Security Rating: A** (Zero vulnerabilities)
+- 🐛 **Zero Bugs** detected
+- 👃 **Zero Code Smells**
 
 **Key Strengths:**
 - Professional code quality across all implementations
@@ -189,6 +198,7 @@ A comprehensive code review has been completed for all programs in this reposito
 - `technical_design.md` - Detailed technical specifications
 - `test_scenarios.md` - Comprehensive test scenarios
 - `CODE_REVIEW_SUMMARY.md` - Complete code review report with findings and recommendations
+- `SONARQUBE_REPORT.md` - Automated static code analysis results
 
 ## Comparison of Implementations
 
