@@ -1,0 +1,43 @@
+/* select_single_row.pc */
+#include <stdio.h>
+#include <string.h>
+
+/* Pro*C SQL Communications Area */
+EXEC SQL INCLUDE sqlca;
+
+void sql_error(const char *msg) {
+    fprintf(stderr, "%s\n", msg);
+    fprintf(stderr, "ORA-%.*s\n", (int)sqlca.sqlerrm.sqlerrml, sqlca.sqlerrm.sqlerrmc);
+}
+
+int main() {
+    /* Host variables */
+    EXEC SQL BEGIN DECLARE SECTION;
+        char username[30] = "scott";
+        char password[30] = "tiger";
+        char db[30]       = "ORCLPDB1";
+        int  empno        = 7369;
+        char ename[11];
+        float sal;
+    EXEC SQL END DECLARE SECTION;
+
+    memset(ename, 0, sizeof(ename));
+
+    /* Connect */
+    EXEC SQL CONNECT :username IDENTIFIED BY :password USING :db;
+    if (sqlca.sqlcode != 0) { sql_error("Connect failed"); return 1; }
+
+    /* Fetch one row */
+    EXEC SQL SELECT ename, sal
+             INTO :ename, :sal
+             FROM emp
+             WHERE empno = :empno;
+
+    if (sqlca.sqlcode == 0) {
+        printf("EMPNO=%d ENAME=%s SAL=%.2f\n", empno, ename, sal);
+    } else if (sqlca.sqlcode == 1403) {
+        printf("No data found for EMPNO=%d\n", empno);
+    } else {
+        sql_error("SELECT failed");
+    }
+

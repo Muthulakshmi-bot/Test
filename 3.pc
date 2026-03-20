@@ -1,0 +1,45 @@
+
+/* cursor_fetch_loop.pc */
+#include <stdio.h>
+#include <string.h>
+EXEC SQL INCLUDE sqlca;
+
+int main() {
+    EXEC SQL BEGIN DECLARE SECTION;
+        char username[30] = "scott";
+        char password[30] = "tiger";
+        char db[30]       = "ORCLPDB1";
+
+        int deptno = 10;
+        int empno;
+        char ename[11];
+        float sal;
+    EXEC SQL END DECLARE SECTION;
+
+    memset(ename, 0, sizeof(ename));
+
+    EXEC SQL CONNECT :username IDENTIFIED BY :password USING :db;
+    if (sqlca.sqlcode != 0) return 1;
+
+    EXEC SQL DECLARE c_emp CURSOR FOR
+        SELECT empno, ename, sal FROM emp WHERE deptno = :deptno ORDER BY empno;
+
+    EXEC SQL OPEN c_emp;
+
+    printf("Employees in dept %d:\n", deptno);
+    while (1) {
+        EXEC SQL FETCH c_emp INTO :empno, :ename, :sal;
+        if (sqlca.sqlcode == 1403) break;        /* no more rows */
+        if (sqlca.sqlcode != 0) {                /* error */
+            fprintf(stderr, "Fetch error ORA-%.*s\n",
+                    (int)sqlca.sqlerrm.sqlerrml, sqlca.sqlerrm.sqlerrmc);
+            break;
+        }
+        printf("  %d %-10s %.2f\n", empno, ename, sal);
+        memset(ename, 0, sizeof(ename));
+    }
+
+    EXEC SQL CLOSE c_emp;
+    EXEC SQL COMMIT WORK RELEASE;
+    return 0;
+}

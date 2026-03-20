@@ -1,0 +1,42 @@
+/* insert_with_commit.pc */
+#include <stdio.h>
+#include <string.h>
+EXEC SQL INCLUDE sqlca;
+
+static void sql_error(const char *msg) {
+    fprintf(stderr, "%s\nORA-%.*s\n", msg,
+            (int)sqlca.sqlerrm.sqlerrml, sqlca.sqlerrm.sqlerrmc);
+}
+
+int main() {
+    EXEC SQL BEGIN DECLARE SECTION;
+        char username[30] = "scott";
+        char password[30] = "tiger";
+        char db[30]       = "ORCLPDB1";
+
+        int  empno = 9001;
+        char ename[11] = "MUTHU";
+        char job[10]   = "DEV";
+        int  mgr = 7839;
+        float sal = 2500.0;
+        float comm = 0.0;
+        int  deptno = 10;
+    EXEC SQL END DECLARE SECTION;
+
+    EXEC SQL CONNECT :username IDENTIFIED BY :password USING :db;
+    if (sqlca.sqlcode != 0) { sql_error("Connect failed"); return 1; }
+
+    EXEC SQL INSERT INTO emp(empno, ename, job, mgr, hiredate, sal, comm, deptno)
+             VALUES (:empno, :ename, :job, :mgr, SYSDATE, :sal, :comm, :deptno);
+
+    if (sqlca.sqlcode == 0) {
+        EXEC SQL COMMIT WORK;
+        printf("Inserted empno=%d (committed)\n", empno);
+    } else {
+        EXEC SQL ROLLBACK WORK;
+        sql_error("Insert failed (rolled back)");
+    }
+
+    EXEC SQL COMMIT WORK RELEASE;
+    return 0;
+}

@@ -1,0 +1,37 @@
+
+/* call_proc_in_out.pc */
+#include <stdio.h>
+EXEC SQL INCLUDE sqlca;
+
+int main() {
+    EXEC SQL BEGIN DECLARE SECTION;
+        char username[30] = "scott";
+        char password[30] = "tiger";
+        char db[30]       = "ORCLPDB1";
+
+        int empno = 7369;
+        double out_sal = 0.0;
+    EXEC SQL END DECLARE SECTION;
+
+    EXEC SQL CONNECT :username IDENTIFIED BY :password USING :db;
+    if (sqlca.sqlcode != 0) return 1;
+
+    /* Call the procedure */
+    EXEC SQL EXECUTE
+    BEGIN
+        p_get_sal(:empno, :out_sal);
+    END;
+    END-EXEC;
+
+    if (sqlca.sqlcode == 0) {
+        printf("Empno=%d Salary=%.2f\n", empno, out_sal);
+    } else if (sqlca.sqlcode == 1403) {
+        printf("No employee found for %d\n", empno);
+    } else {
+        fprintf(stderr, "Proc call failed ORA-%.*s\n",
+                (int)sqlca.sqlerrm.sqlerrml, sqlca.sqlerrm.sqlerrmc);
+    }
+
+    EXEC SQL COMMIT WORK RELEASE;
+    return 0;
+}
