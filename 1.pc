@@ -1,9 +1,14 @@
 /* select_single_row.pc */
 #include <stdio.h>
 #include <string.h>
-
+/* test the rebase code*/
 /* Pro*C SQL Communications Area */
 EXEC SQL INCLUDE sqlca;
+
+void sql_error(const char *msg) {
+    fprintf(stderr, "%s\n", msg);
+    fprintf(stderr, "ORA-%.*s\n", (int)sqlca.sqlerrm.sqlerrml, sqlca.sqlerrm.sqlerrmc);
+}
 
 void sql_error(const char *msg) {
     fprintf(stderr, "%s\n", msg);
