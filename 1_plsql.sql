@@ -21,7 +21,19 @@ BEGIN
 
         -- If successful (equivalent to sqlca.sqlcode == 0)
         DBMS_OUTPUT.PUT_LINE('EMPNO=' || v_empno || ' ENAME=' || v_ename || ' SAL=' || TO_CHAR(v_sal, '99999.99'));
+    SELECT ename, sal
+        INTO v_ename, v_sal
+        FROM emp
+        WHERE empno = v_empno;
 
+        -- If successful (equivalent to sqlca.sqlcode == 0)
+        DBMS_OUTPUT.PUT_LINE('EMPNO=' || v_empno || ' ENAME=' || v_ename || ' SAL=' || TO_CHAR(v_sal, '99999.99'));    SELECT ename, sal
+        INTO v_ename, v_sal
+        FROM emp
+        WHERE empno = v_empno;
+
+        -- If successful (equivalent to sqlca.sqlcode == 0)
+        DBMS_OUTPUT.PUT_LINE('EMPNO=' || v_empno || ' ENAME=' || v_ename || ' SAL=' || TO_CHAR(v_sal, '99999.99'));
     EXCEPTION
         WHEN NO_DATA_FOUND THEN
             -- Equivalent to sqlca.sqlcode == 1403
