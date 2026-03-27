@@ -31,7 +31,7 @@ int main() {
     /* Connect */
     EXEC SQL CONNECT :username IDENTIFIED BY :password USING :db;
     if (sqlca.sqlcode != 0) { sql_error("Connect failed"); return 1; }
-
+/* Pro*C SQL Communications Area */
     /* Fetch one row */
     EXEC SQL SELECT ename, sal
              INTO :ename, :sal
@@ -45,4 +45,4 @@ int main() {
     } else {
         sql_error("SELECT failed");
     }
-
+/* Pro*C SQL Communications Area */
