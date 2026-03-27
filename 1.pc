@@ -25,8 +25,8 @@ int main() {
 
     /* Connect */
     EXEC SQL CONNECT :username IDENTIFIED BY :password USING :db;
-    if (sqlca.sqlcode != 0) { sql_error("Connect failed"); return 1; }
-
+/*    if (sqlca.sqlcode != 0) { sql_error("Connect failed"); return 1; }*/
+if (sqlca.sqlcode != 0) { sql_error("Connect failed"); return 1; }
     /* Fetch one row */
     EXEC SQL SELECT ename, sal
              INTO :ename, :sal
