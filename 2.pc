@@ -29,6 +29,8 @@ int main() {
     EXEC SQL INSERT INTO emp(empno, ename, job, mgr, hiredate, sal, comm, deptno)
              VALUES (:empno, :ename, :job, :mgr, SYSDATE, :sal, :comm, :deptno);
 
+    EXEC SQL INSERT INTO emp(empno, ename, job, mgr, hiredate, sal, comm, deptno)
+             VALUES (:empno, :ename, :job, :mgr, SYSDATE, :sal, :comm, :deptno);
     if (sqlca.sqlcode == 0) {
         EXEC SQL COMMIT WORK;
         printf("Inserted empno=%d (committed)\n", empno);
