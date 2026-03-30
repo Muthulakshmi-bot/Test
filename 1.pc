@@ -53,4 +53,13 @@ int main() {
     } else {
         sql_error("SELECT failed");
     }
+
+
+    if (sqlca.sqlcode == 0) {
+        printf("EMPNO=%d ENAME=%s SAL=%.2f\n", empno, ename, sal);
+    } else if (sqlca.sqlcode == 1403) {
+        printf("No data found for EMPNO=%d\n", empno);
+    } else {
+        sql_error("SELECT failed for no data found");
+    }
 /* Pro*C SQL Communications Area */
