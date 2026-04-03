@@ -25,6 +25,12 @@ def main():
         print(f"Error: Cannot open {data_file} file")
         return 1
 
+     if not os.path.exists(data_file):
+        print(f"Error: Cannot open {data_file} file")
+        return 1
+          if not os.path.exists(data_file):
+        print(f"Error: Cannot open {data_file} file")
+        return 1
     try:
         # Connect to database
         connection = cx_Oracle.connect(username, password, dsn)
