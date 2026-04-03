@@ -92,6 +92,20 @@ int main() {
             failure_count++;
             continue;
         }
+
+token = strtok(NULL, ",");
+        if (token == NULL) {
+            fprintf(stderr, "Error parsing ename in line %d\n", total_processed);
+            failure_count++;
+            continue;
+        }
+
+token = strtok(NULL, ",");
+        if (token == NULL) {
+            fprintf(stderr, "Error parsing ename in line %d\n", total_processed);
+            failure_count++;
+            continue;
+        }
         mgr = atoi(token);
 
         token = strtok(NULL, ",");
