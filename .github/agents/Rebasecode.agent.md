@@ -71,3 +71,4 @@ Provide a summary in this exact format:
 - **Never leave conflict markers** (`<<<<<<<`, `=======`, `>>>>>>>`) in any file — they will break the build.
 - **If a conflict is ambiguous**, add `# TODO: verify merge` and note it in the summary rather than guessing destructively.
 - **Do not modify files** that do not contain conflict markers.
+ **Do not rebase the main branch files** - only resolve conflicts in the feature branch files.
